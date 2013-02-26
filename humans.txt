@@ -1,0 +1,40 @@
+/* the humans responsible & colophon */
+/* humanstxt.org */
+
+/* TEAM */
+
+  Designed & built by Daniel Mendel Espeset, August 2012.
+
+/* THANKS */
+  Joan Stark for the awesome ascii art below.  
+  Source: http://www.geocities.com/spunk1111/food.htm#tomatosoup
+
+/* SITE */
+  Standards: HTML5, CSS3, pre-AMD
+  Components: Modernizr, jQuery, three.js
+  Software:  
+
+                     Art Skool
+          _______________________________
+         [_______________________________]
+         |===============================|
+         |   __                          |
+         |._/_.' _, ,__  ,_ /_ _  / /'   |
+         | / _  / / /// / // /(-'/ / /|  |
+         | \__)(_(_//(_/_/(_/(__(_(_/_/_ |
+         |            /                  |
+         |       C O N D E N S E D       |
+         |                               |
+         |            .-"""-.            |
+         |           /:`:..':\           |
+         |==========|.:::::..:|==========|
+         |           \::::::./           |
+         |            `-:::-'            |
+         |     ___                       |
+         |      |  _ ,_ _  _ -|- _       |
+         |      | (_)| | |(_| |_(_)      |
+         |                               |
+         |V( )V( )V(  S O U P  )V( )V( )V|
+         |----------           ----------|
+         '==============================='
+ 
