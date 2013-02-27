@@ -30,6 +30,11 @@ function( $      ,  _          ,  Backbone  ){
     }
 
     /**
+     * Logger
+     */
+    app.log = app.log || function(){ console.log.apply( console, arguments ) };
+
+    /**
      *  Event Management Methods
      *  ------------------------------------------------------------------------------------
      */
@@ -96,7 +101,7 @@ function( $      ,  _          ,  Backbone  ){
     var exclusions = [];
     var debugLogger = function(){
         if( !exclusions.length || !arguments[0].match(new RegExp( exclusions.join('|') )) ){
-            console.log( arguments );
+            app.log( arguments );
         }
     };
 
