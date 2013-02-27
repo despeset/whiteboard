@@ -24,14 +24,15 @@ function( app ,  $      ,  _          ,  Backbone ,  Recorder  ){
       audioRec.trigger('unsupported', audioRec);
     }
     
-    navigator.getUserMedia({audio: true}, function( stream ){
+    navigator.getUserMedia({audio: true}, function userApproved( stream ){
       audioRec.trigger('init', stream );
-    }, function(e) {
+    }, function userDeniedOrError(e) {
       app.log('No live audio input: ' + e);
       audioRec.trigger('noinput', audioRec, e);
     });
   }
 
+  // once the user approves recording
   audioRec.on('init', function(stream){
       audioRec.input = audio_ctx.createMediaStreamSource(stream);
       audioRec.recorder = new Recorder( audioRec.input, { workerPath: 'js/libs/recorderWorker.js' });

@@ -51,7 +51,7 @@ function( $      ,  _          ,  Backbone  ){
      *      truck <(honk)
      *        app <(truck:honk)
      *
-     *  @param {String} deligate map
+     *  @param {String} delegate map
      *  @param {Object} something implimenting the `Backbone#Events` style `#on('all')` handler
      */
 
@@ -66,25 +66,25 @@ function( $      ,  _          ,  Backbone  ){
     /**
      *  Process batch subscriptions in a style similiar to he Backbone.View element event deligation style
      *
-     *  @param {Object} deligate map
+     *  @param {Object} delegate map
      *  @param {Object} scope for event callbacks
      */
 
-    app.deligate = function deligate( deligates, context ){
-        for( eventName in deligates ){
-            app.on( eventName, deligates[eventName], context );
+    app.delegate = function delegate( delegates, context ){
+        for( eventName in delegates ){
+            app.on( eventName, delegates[eventName], context );
         }
     };
 
     /**
      *  Process batch unsubscriptions.
      *
-     *  @param {Object} deligate map
+     *  @param {Object} delegate map
      */
 
-    app.undeligate = function undeligate( deligates ){
-        for( eventName in deligates ){
-            app.off( eventName, deligates[eventName] );
+    app.undelegate = function undelegate( delegates ){
+        for( eventName in delegates ){
+            app.off( eventName, delegates[eventName] );
         }
     };
 

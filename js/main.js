@@ -62,22 +62,22 @@ requirejs([ 'app', 'jquery', 'audioRec', 'board' ]
         board.init('#board');
     });
 
-    var on = false;
-
+    // kludge -- needs refactored.
+    var playingOrRecording = false;
     audioRec.on( 'init', function(){
         window.board = board;
         $('#rec').click(function(){
-            if( !on ){
+            if( !playingOrRecording ){
                 audioRec.record();
                 board.record();
-                on = true;
+                playingOrRecording = true;
             } else {
                 audioRec.stop();
                 board.stop();
-                on = false;
+                playingOrRecording = false;
                 $(this).unbind('click');
                 $(this).click(function(){
-                    if( !on ){
+                    if( !playingOrRecording ){
                         audioRec.play();
                         board.spool();
                         board.play();
