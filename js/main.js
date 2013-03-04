@@ -43,6 +43,7 @@ require.config({
         , jquery: 'libs/jquery-1.7.1.min'
         , modernizr: 'libs/modernizr-2.5.3.min'
         , recorder: 'libs/recorder'
+        , speex: 'libs/speex'
 
     },
     
@@ -53,13 +54,13 @@ require.config({
 requirejs([ 'app', 'jquery', 'audioRec', 'board' ]
 , function(  app ,  $      ,  audioRec ,  board  ){
 
-    app.debug();
+    app.debug()
 
-    app.trigger( 'boot', app );
+    app.trigger( 'boot', app )
 
     app.on( 'start', function(){ 
-        audioRec.init();
-        board.init('#board');
+        audioRec.init()
+        board.init('#board')
     });
 
     // kludge -- needs refactored.
@@ -68,30 +69,30 @@ requirejs([ 'app', 'jquery', 'audioRec', 'board' ]
         window.board = board;
         $('#rec').click(function(){
             if( !playingOrRecording ){
-                audioRec.record();
-                board.record();
-                playingOrRecording = true;
+                audioRec.record()
+                board.record()
+                playingOrRecording = true
             } else {
-                audioRec.stop();
-                board.stop();
-                playingOrRecording = false;
-                $(this).unbind('click');
+                audioRec.stop()
+                board.stop()
+                playingOrRecording = false
+                $(this).unbind('click')
                 $(this).click(function(){
                     if( !playingOrRecording ){
-                        audioRec.play();
-                        board.spool();
-                        board.play();
+                        audioRec.play()
+                        board.spool()
+                        board.play()
                     } else {
-                        audioRec.stop();
-                        board.stop();
+                        audioRec.stop()
+                        board.stop()
                     }
-                });
-                $(this).click();
+                })
+                $(this).click()
             }
 
         });
     });
 
-    $(function(){ app.trigger( 'start', app ); });
+    $(function(){ app.trigger( 'start', app ) })
 
 });
