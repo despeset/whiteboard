@@ -11,7 +11,7 @@
     worker.postMessage({
       command: 'init',
       config: {
-        sampleRate: this.context.sampleRate
+          sampleRate: this.context.sampleRate
       }
     });
     var recording = false,
@@ -60,6 +60,14 @@
       worker.postMessage({
         command: 'exportWAV',
         type: type
+      });
+    }
+
+    this.exportSpeex = function(cb){
+      currCallback = cb || config.callback;
+      if (!currCallback) throw new Error('Callback not set');
+      worker.postMessage({
+        command: 'exportSpeex'
       });
     }
 

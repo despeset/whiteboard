@@ -26,6 +26,10 @@ require.config({
             , exports: 'Backbone'
         }
 
+        , 'speex': {
+            exports: 'Speex'
+        }
+
     },
 
     paths: {

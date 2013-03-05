@@ -1,9 +1,13 @@
-define([ 'app', 'jquery', 'underscore', 'backbone', 'recorder' ],
-function( app ,  $      ,  _          ,  Backbone ,  Recorder  ){
+define([ 'app', 'jquery', 'underscore', 'backbone', 'recorder', 'speex' ],
+function( app ,  $      ,  _          ,  Backbone ,  Recorder ,  Speex  ){
     var audioRec = _.extend({},Backbone.Events)
       , recorder = null
       , audio_ctx
-        
+      , codec = new Speex({ benchmark: false
+                          , quality: 2
+                          , complexity: 2
+                          , bits_size: 15 })
+
     app.proxy( 'audio', audioRec )
 
     audioRec.init = function(){
@@ -49,9 +53,9 @@ function( app ,  $      ,  _          ,  Backbone ,  Recorder  ){
     buildAndPlay = function( blob ){
             if( !$('#audioPlayer').length ){
                 var url = URL.createObjectURL(blob)
-                var li = document.createElement('li')
-                var au = document.createElement('audio')
-                var hf = document.createElement('a')
+                var li  = document.createElement('li')
+                var au  = document.createElement('audio')
+                var hf  = document.createElement('a')
                 
                 au.autoplay = true
                 au.src = url
@@ -67,10 +71,29 @@ function( app ,  $      ,  _          ,  Backbone ,  Recorder  ){
     }
 
     audioRec.play = function(){
-        audioRec.recorder.exportWAV(function(blob) {
-            buildAndPlay( blob )
-            audioRec.trigger('play', audioRec)
-        });
+        // audioRec.recorder.exportWAV(function(blob) {
+        //     buildAndPlay( blob )
+        //     audioRec.trigger('play', audioRec)
+        // })
+        audioRec.export();
+    }
+
+    audioRec.export = function(){
+        app.log('exporting');
+        audioRec.recorder.exportSpeex(function(spxData){
+            app.log('cb!!!');
+            // app.log( blob );
+            // app.log( blob.toString() );
+            // var url = URL.createObjectURL(blob)
+            //   , hf  = document.createElement('a')
+            // hf.href = url
+            // hf.download = new Date().toISOString() + '.ogg'
+            // hf.innerHTML = hf.download
+            // $('body').append(hf);
+            console.log('showtime!')
+            Speex.util.play(codec.decode(spxData));
+            // codec.close();
+        })
     }
 
     window.audioRec = audioRec

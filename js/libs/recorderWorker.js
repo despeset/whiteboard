@@ -1,7 +1,10 @@
 var recLength = 0,
   recBuffersL = [],
   recBuffersR = [],
-  sampleRate;
+  sampleRate,
+  codec;
+
+importScripts('speex.js');
 
 this.onmessage = function(e){
   switch(e.data.command){
@@ -14,6 +17,9 @@ this.onmessage = function(e){
     case 'exportWAV':
       exportWAV(e.data.type);
       break;
+    case 'exportSpeex':
+      exportSpeex();
+      break;
     case 'getBuffer':
       getBuffer();
       break;
@@ -25,6 +31,10 @@ this.onmessage = function(e){
 
 function init(config){
   sampleRate = config.sampleRate;
+  codec = new Speex({ benchmark: false
+                    , quality: 2
+                    , complexity: 2
+                    , bits_size: 15 });
 }
 
 function record(inputBuffer){
@@ -33,12 +43,22 @@ function record(inputBuffer){
   recLength += inputBuffer[0].length;
 }
 
-function exportWAV(type){
-  var bufferL = mergeBuffers(recBuffersL, recLength);
-  var bufferR = mergeBuffers(recBuffersR, recLength);
+function exportSpeex(){
+  var bufferL     = mergeBuffers(recBuffersL, recLength);
+  var bufferR     = mergeBuffers(recBuffersR, recLength);
   var interleaved = interleave(bufferL, bufferR);
-  var dataview = encodeWAV(interleaved);
-  var audioBlob = new Blob([dataview], { type: type });
+  var dataview    = encodeSpeex(interleaved);
+  // var audioBlob   = new Blob([dataview], { type: 'audio/x-speex' });
+
+  this.postMessage(dataview);
+}
+
+function exportWAV(type){
+  var bufferL     = mergeBuffers(recBuffersL, recLength);
+  var bufferR     = mergeBuffers(recBuffersR, recLength);
+  var interleaved = interleave(bufferL, bufferR);
+  var dataview    = encodeWAV(interleaved);
+  var audioBlob   = new Blob([dataview], { type: type });
 
   this.postMessage(audioBlob);
 }
@@ -92,6 +112,11 @@ function writeString(view, offset, string){
   for (var i = 0; i < string.length; i++){
     view.setUint8(offset + i, string.charCodeAt(i));
   }
+}
+
+function encodeSpeex(samples){
+  var encoded = codec.encode(samples, true);
+  return encoded;
 }
 
 function encodeWAV(samples){
