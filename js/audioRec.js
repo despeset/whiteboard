@@ -4,7 +4,7 @@ function( app ,  $      ,  _          ,  Backbone ,  Recorder ,  Speex  ){
       , recorder = null
       , audio_ctx
       , codec = new Speex({ benchmark: false
-                          , quality: 2
+                          , quality: 8
                           , complexity: 2
                           , bits_size: 15 })
 
@@ -19,7 +19,8 @@ function( app ,  $      ,  _          ,  Backbone ,  Recorder ,  Speex  ){
                                        navigator.mozGetUserMedia    ||
                                        navigator.msGetUserMedia)
             window.URL = window.URL || window.webkitURL            
-            audio_ctx = new AudioContext
+            audio_ctx = new AudioContext()
+            window.audio_ctx = audio_ctx
             app.log('Audio context set up.')
             app.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'))
         } catch (e) {

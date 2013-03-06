@@ -39999,8 +39999,8 @@ return Module;
 
 	  , play: function (floats) {
 		  	var waveData = PCMData.encode({
-				sampleRate: 8000,
-				channelCount:   1,
+				sampleRate: 44100,
+				channelCount:   2,
 				bytesPerSample: 2,
 				data: floats
 			});

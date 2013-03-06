@@ -32,7 +32,7 @@ this.onmessage = function(e){
 function init(config){
   sampleRate = config.sampleRate;
   codec = new Speex({ benchmark: false
-                    , quality: 2
+                    , quality: 8
                     , complexity: 2
                     , bits_size: 15 });
 }
@@ -47,6 +47,16 @@ function exportSpeex(){
   var bufferL     = mergeBuffers(recBuffersL, recLength);
   var bufferR     = mergeBuffers(recBuffersR, recLength);
   var interleaved = interleave(bufferL, bufferR);
+
+  interleaved     = (function castFloat32ToInt16 (data) {
+    var datalen = data.length;
+    var shorts = new Int16Array(datalen);
+    for(var i=0; i<datalen; i++){
+      shorts[i] = Math.floor(Math.min(1.0, Math.max(-1.0, data[i]))*32767);
+    }
+    return shorts;
+  })(interleaved);
+
   var dataview    = encodeSpeex(interleaved);
   // var audioBlob   = new Blob([dataview], { type: 'audio/x-speex' });
 
@@ -115,8 +125,7 @@ function writeString(view, offset, string){
 }
 
 function encodeSpeex(samples){
-  var encoded = codec.encode(samples, true);
-  return encoded;
+  return codec.encode(samples, true);
 }
 
 function encodeWAV(samples){
